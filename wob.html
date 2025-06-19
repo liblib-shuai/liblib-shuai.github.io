@@ -1116,23 +1116,23 @@
             <!-- 新建测试区域 -->
             <div class="function-content" id="newTestContent">
                 <div class="file-input-group">
-                    <label>输入文件 (JSON格式)</label>
+                    <label>输入文件 (JSON格式) - 仅限一个文件</label>
                     <input type="file" id="inputFile" class="file-input" accept=".json">
                     <label for="inputFile" class="file-label">📄 选择输入文件</label>
                     <div class="file-list" id="inputFileList">
                         <div style="padding: 20px; text-align: center; color: #718096;">
-                            点击上方按钮选择输入文件
+                            点击上方按钮选择输入文件（仅限一个）
                         </div>
                     </div>
                 </div>
 
                 <div class="file-input-group">
-                    <label>输出结果文件 (JSON格式)</label>
+                    <label>输出结果文件 (JSON格式) - 不支持同名文件</label>
                     <input type="file" id="outputFileInput" class="file-input" accept=".json" multiple>
                     <label for="outputFileInput" class="file-label">📄 选择输出文件</label>
                     <div class="file-list" id="outputFileList">
                         <div style="padding: 20px; text-align: center; color: #718096;">
-                            点击上方按钮添加输出文件
+                            点击上方按钮添加输出文件（不支持同名文件）
                         </div>
                     </div>
                 </div>
@@ -1144,7 +1144,7 @@
 
                 <button class="start-btn" id="startBtn" disabled>🚀 开始测试</button>
             </div>
-            
+
             <!-- 导入结果区域 -->
             <div class="function-content" id="importResultsContent" style="display: none;">
                 <div class="file-input-group">
@@ -1153,7 +1153,7 @@
                     <label for="resultsFile" class="file-label">📄 选择结果文件</label>
                     <div class="file-info" id="resultsFileInfo"></div>
                 </div>
-                
+
                 <button class="start-btn" id="importResultsBtn" disabled>📊 查看结果</button>
             </div>
         </div>
@@ -1195,9 +1195,9 @@
                     <button class="nav-btn prev-btn" id="prevBtn">⬅️ 上一题</button>
                     <div class="preference-reason-section">
                         <label class="preference-reason-label" for="preferenceReason">💭 偏好原因（可选）</label>
-                        <textarea 
-                            id="preferenceReason" 
-                            class="preference-reason-textarea" 
+                        <textarea
+                            id="preferenceReason"
+                            class="preference-reason-textarea"
                             placeholder="请描述您选择该结果的原因，例如：图片质量更好、创意更丰富、更符合要求等..."
                             onchange="savePreferenceReason()"
                         ></textarea>
@@ -1209,12 +1209,12 @@
 
         <div class="results-section" id="resultsSection">
             <h2>📊 测试结果统计</h2>
-            
+
             <!-- 导航按钮 -->
             <div class="results-nav">
                 <button class="nav-btn home-btn" onclick="goHome()">🏠 回到开始</button>
             </div>
-            
+
             <!-- 进度概览 -->
             <div class="progress-overview" id="progressOverview">
                 <div class="progress-bar-container">
@@ -1222,22 +1222,22 @@
                     <div class="progress-text" id="progressText">0%</div>
                 </div>
             </div>
-            
+
             <!-- 模型对比图表 -->
             <div class="model-comparison" id="modelComparison">
                 <h3>🏆 模型表现对比</h3>
                 <div class="chart-container" id="chartContainer"></div>
             </div>
-            
+
             <!-- ELO评分排名 -->
             <div class="elo-ranking" id="eloRanking">
                 <h3>📈 ELO评分排名</h3>
                 <div class="elo-container" id="eloContainer"></div>
             </div>
-            
+
             <!-- 详细统计 -->
             <div class="summary-stats" id="summaryStats"></div>
-            
+
             <!-- 操作按钮 -->
             <div class="results-actions">
                 <button class="action-btn" id="viewDetailsBtn" onclick="showDetailedResults()">📋 查看详细结果</button>
@@ -1299,7 +1299,7 @@
             const importResultsTab = document.getElementById('importResultsTab');
             const newTestContent = document.getElementById('newTestContent');
             const importResultsContent = document.getElementById('importResultsContent');
-            
+
             if (functionType === 'newTest') {
                 newTestTab.classList.add('active');
                 importResultsTab.classList.remove('active');
@@ -1317,7 +1317,7 @@
         function handleResultsFileChange(event) {
             const file = event.target.files[0];
             if (file) {
-                document.getElementById('resultsFileInfo').textContent = 
+                document.getElementById('resultsFileInfo').textContent =
                     `已选择: ${file.name} (${(file.size / 1024).toFixed(1)} KB)`;
                 importResultsBtn.disabled = false;
             }
@@ -1333,7 +1333,7 @@
                 }
 
                 const resultData = await readFileAsJSON(file);
-                
+
                 // 验证结果文件格式 - 适配实际的结果文件结构
                 if (!resultData.userPreferences) {
                     throw new Error('结果文件格式不正确，缺少userPreferences字段');
@@ -1355,20 +1355,20 @@
                     if (pref.model1Name) modelNames.add(pref.model1Name);
                     if (pref.model2Name) modelNames.add(pref.model2Name);
                 });
-                
+
                 outputModels = Array.from(modelNames);
 
                 // 直接显示结果页面
                 uploadSection.style.display = 'none';
                 testSection.style.display = 'none';
                 resultsSection.style.display = 'block';
-                
+
                 // 显示标题区域
                 document.querySelector('.header').style.display = 'block';
-                
+
                 // 显示结果
                 displayResults();
-                
+
             } catch (error) {
                 alert('导入结果失败: ' + error.message);
             }
@@ -1377,6 +1377,13 @@
         function handleInputFileChange(event) {
             const file = event.target.files[0];
             if (file) {
+                // 检查是否已经有输入文件
+                if (inputFileItem) {
+                    alert('只能导入一个输入文件。请先删除当前输入文件。');
+                    event.target.value = ''; // 清空文件选择
+                    return;
+                }
+
                 inputFileItem = {
                     file: file,
                     name: file.name,
@@ -1417,7 +1424,7 @@
             if (!inputFileItem) {
                 inputFileList.innerHTML = `
                     <div style="padding: 20px; text-align: center; color: #718096;">
-                        点击上方按钮选择输入文件
+                        点击上方按钮选择输入文件（仅限一个）
                     </div>
                 `;
                 return;
@@ -1429,7 +1436,7 @@
                         <span class="file-name">${inputFileItem.name}</span>
                         <span class="file-size">(${(inputFileItem.size / 1024).toFixed(1)} KB)</span>
                         <span class="file-status ${inputFileItem.status}">
-                            ${inputFileItem.status === 'loading' ? '加载中...' : 
+                            ${inputFileItem.status === 'loading' ? '加载中...' :
                               inputFileItem.status === 'success' ? '✓ 已加载' : '✗ 错误'}
                         </span>
                     </div>
@@ -1455,6 +1462,13 @@
         }
 
         function addOutputFile(file) {
+            // 检查是否已存在同名文件
+            const existingFile = uploadedFiles.find(f => f.name === file.name);
+            if (existingFile) {
+                alert(`文件 "${file.name}" 已存在，不能重复导入同名文件。`);
+                return;
+            }
+
             const fileItem = {
                 file: file,
                 name: file.name,
@@ -1501,7 +1515,7 @@
             if (uploadedFiles.length === 0) {
                 outputFileList.innerHTML = `
                     <div style="padding: 20px; text-align: center; color: #718096;">
-                        点击上方按钮添加输出文件
+                        点击上方按钮添加输出文件（不支持同名文件）
                     </div>
                 `;
                 return;
