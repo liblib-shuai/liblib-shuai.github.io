@@ -93,6 +93,29 @@
             align-items: center;
         }
         
+        /* Responsive navigation */
+        @media (max-width: 768px) {
+            .nav-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .nav-center {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 0.5rem;
+            }
+
+            .nav-center a {
+                padding: 0.3rem 0.8rem;
+                font-size: 0.9rem;
+            }
+
+            .nav-test-btn {
+                margin: 0.5rem 0;
+            }
+        }
+
         /* Main Content */
         .main {
             display: grid;
@@ -198,6 +221,83 @@
             color: #4a5568;
         }
 
+        /* Cards */
+        .card {
+            background: #f7fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .card h4 {
+            color: #2d3748;
+            margin-bottom: 15px;
+        }
+
+        /* Code blocks */
+        .code-block {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 20px 0;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 0.9rem;
+        }
+
+        .code-block pre {
+            margin: 0;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .code-block code {
+            color: inherit;
+            background: none;
+            padding: 0;
+            border-radius: 0;
+            font-size: inherit;
+        }
+
+        /* JSON syntax highlighting */
+        .code-block .string { color: #9f7aea; }
+        .code-block .number { color: #48bb78; }
+        .code-block .boolean { color: #ed8936; }
+        .code-block .null { color: #e53e3e; }
+        .code-block .key { color: #63b3ed; }
+        .code-block .punctuation { color: #a0aec0; }
+
+        /* Tables */
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .table th {
+            background: #667eea;
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .table td {
+            padding: 15px;
+            border-bottom: 1px solid #e2e8f0;
+            color: #4a5568;
+        }
+
+        .table tr:hover {
+            background: #f7fafc;
+        }
+
         /* Features grid */
         .features-grid {
             display: grid;
@@ -224,6 +324,38 @@
             color: rgba(255,255,255,0.9);
         }
 
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        /* Footer */
+        .footer {
+            background: #2d3748;
+            color: white;
+            text-align: center;
+            padding: 40px 0;
+            margin-top: 60px;
+        }
+
+        .footer p {
+            opacity: 0.8;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .main {
@@ -235,6 +367,16 @@
                 margin-bottom: 30px;
             }
 
+            .nav-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
             .header h1 {
                 font-size: 2rem;
             }
@@ -242,6 +384,68 @@
             .content {
                 padding: 20px;
             }
+        }
+
+        /* Highlight */
+        .highlight {
+            background: linear-gradient(120deg, #a8edea 0%, #fed6e3 100%);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #667eea;
+        }
+
+        /* Version badges */
+        .version-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            background: #48bb78;
+            color: white;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+
+        /* Fixed test button */
+        .nav-test-btn {
+            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-left: 20px;
+        }
+
+        .nav-test-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(72, 187, 120, 0.3);
+            color: white;
+            text-decoration: none;
+        }
+
+        /* Navigation layout update */
+        .nav-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-center {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
         }
     </style>
 </head>
@@ -287,7 +491,13 @@
                     <li><a href="#features">🚀 主要功能</a></li>
                     <li><a href="#guide">📋 操作指南</a></li>
                     <li><a href="#format">📊 数据格式</a></li>
+                    <li><a href="#elo">🏆 ELO评分系统</a></li>
+                    <li><a href="#shortcuts">⌨️ 快捷键</a></li>
+                    <li><a href="#cache">💾 缓存机制</a></li>
+                    <li><a href="#tech">🔧 技术特性</a></li>
                     <li><a href="#troubleshooting">🛠️ 故障排除</a></li>
+                    <li><a href="#changelog">📈 更新日志</a></li>
+                    <li><a href="#support">📞 联系支持</a></li>
                 </ul>
             </div>
 
@@ -297,6 +507,17 @@
                 <div class="section" id="overview">
                     <h2>📖 概述</h2>
                     <p>AI模型盲测平台是一个专业的Web离线测试工具，用于客观评估不同AI模型的输出质量。通过盲测方式（隐藏模型信息），用户可以专注于输出内容的质量，选择他们认为最好的结果，从而获得更科学、更客观的模型性能评估。</p>
+
+                    <div class="highlight">
+                        <h4>🎯 核心价值</h4>
+                        <ul>
+                            <li><strong>客观评估</strong>：盲测设计消除模型品牌偏见</li>
+                            <li><strong>科学评分</strong>：ELO评分系统提供专业排名</li>
+                            <li><strong>用户友好</strong>：直观界面，支持键盘快捷操作</li>
+                            <li><strong>数据完整</strong>：详细记录每个选择的原因和时间</li>
+                            <li><strong>离线运行</strong>：无需网络连接，保护数据隐私</li>
+                        </ul>
+                    </div>
                 </div>
 
                 <!-- Features -->
@@ -318,7 +539,7 @@
                         </div>
                         <div class="feature-card">
                             <h4>用户体验优化</h4>
-                            <p>响应式设计、媒体预览、视频支持、缩略图预加载、长图支持、本地缓存、结果查看、历史导入</p>
+                            <p>响应式设计、媒体预览、缩略图预加载、长图支持、本地缓存、结果查看、历史导入</p>
                         </div>
                     </div>
                 </div>
@@ -327,11 +548,48 @@
                 <div class="section" id="guide">
                     <h2>📋 操作指南</h2>
 
-                    <h3>选择输出结果</h3>
+                    <h3>开始新测试</h3>
+                    <h4>第一步：选择功能</h4>
+                    <ol>
+                        <li>打开平台首页</li>
+                        <li>选择"🆕 新建测试"功能标签</li>
+                    </ol>
+
+                    <h4>第二步：导入输入文件</h4>
+                    <ol>
+                        <li>点击"📄 选择输入文件"按钮</li>
+                        <li>选择JSON格式的输入文件</li>
+                        <li>系统自动验证和加载文件</li>
+                        <li>查看文件状态确认加载成功</li>
+                    </ol>
+
+                    <h4>第三步：导入输出文件</h4>
+                    <ol>
+                        <li>点击"📄 选择输出文件"按钮</li>
+                        <li>选择多个JSON格式的输出文件（至少2个）</li>
+                        <li>系统自动验证每个文件的有效性</li>
+                        <li>确认所有文件加载成功</li>
+                    </ol>
+
+                    <h4>第四步：开始测试</h4>
+                    <ol>
+                        <li>检查文件状态，确保所有文件显示"✓ 已加载"</li>
+                        <li>点击"🚀 开始测试"按钮</li>
+                        <li>系统自动生成测试组合并进入测试界面</li>
+                    </ol>
+
+                    <h3>进行盲测</h3>
+                    <h4>查看测试内容</h4>
+                    <ul>
+                        <li><strong>输入区域</strong>：查看测试输入内容（文本和图片）</li>
+                        <li><strong>测试信息</strong>：显示当前测试ID和模型组合ID</li>
+                        <li><strong>进度显示</strong>：实时显示当前题目进度</li>
+                    </ul>
+
+                    <h4>选择输出结果</h4>
                     <ul>
                         <li><strong>点击选择</strong>：点击选择您认为最好的输出结果</li>
                         <li><strong>图片预览</strong>：点击图片可放大查看，支持缩略图快速加载</li>
-                        <li><strong>视频预览</strong>：点击视频缩略图可放大播放，视频显示为缩略图并叠加播放图标</li>
                         <li><strong>长图支持</strong>：长图会完整显示，按比例缩放，不会被截断</li>
                         <li><strong>键盘操作</strong>：
                             <ul>
@@ -342,11 +600,62 @@
                             </ul>
                         </li>
                     </ul>
+
+                    <h4>记录选择原因</h4>
+                    <ul>
+                        <li>在"偏好原因"文本框中记录选择原因（可选）</li>
+                        <li>支持多行文本输入</li>
+                        <li>自动保存到测试结果中</li>
+                    </ul>
+
+                    <h4>继续测试</h4>
+                    <ul>
+                        <li>点击"下一题 ➡️"按钮或按Enter键继续</li>
+                        <li>最后一题完成后自动进入结果页面</li>
+                    </ul>
                 </div>
 
                 <!-- Data Format -->
                 <div class="section" id="format">
-                    <h2>📊 数据格式</h2>
+                    <h2>📊 数据格式规范</h2>
+
+                    <h3>输入文件格式</h3>
+                    <p>输入文件应为JSON格式，包含测试用例的输入信息：</p>
+
+                    <div class="code-block">
+<pre><code>{
+  "test_info": {
+    "test_version": "测试版本标识",
+    "test_case": "测试用例标识"
+  },
+  "0": {
+    "input_display_info": {
+      "input_texts": ["输入文本1", "输入文本2"],
+      "input_images": ["图片URL1", "图片URL2"]
+    }
+  },
+  "1": {
+    "input_display_info": {
+      "input_texts": ["输入文本1"],
+      "input_images": ["图片URL1"]
+    }
+  }
+}</code></pre>
+                    </div>
+
+                    <div class="card">
+                        <h4>字段说明</h4>
+                        <ul>
+                            <li><code>test_info</code>：测试信息，包含版本和用例标识</li>
+                            <li><code>0</code>, <code>1</code>等：测试ID，对应输出文件中的test_id</li>
+                            <li><code>input_display_info</code>：输入显示信息
+                                <ul>
+                                    <li><code>input_texts</code>：输入文本数组</li>
+                                    <li><code>input_images</code>：输入图片URL数组</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
 
                     <h3>输出文件格式</h3>
                     <p>输出文件应为JSON格式，包含模型生成的输出结果：</p>
@@ -362,6 +671,12 @@
       "output_images": ["输出图片URL1", "输出图片URL2"],
       "output_videos": ["输出视频URL1"]
     }
+  },
+  "1": {
+    "output_display_info": {
+      "output_images": ["输出图片URL1"],
+      "output_videos": []
+    }
   }
 }</code></pre>
                     </div>
@@ -373,32 +688,191 @@
                             <li><code>0</code>, <code>1</code>等：测试ID，必须与输入文件中的ID对应</li>
                             <li><code>output_display_info</code>：输出显示信息
                                 <ul>
-                                    <li><code>output_images</code>：输出图片URL数组（支持图片和视频文件）</li>
+                                    <li><code>output_images</code>：输出图片URL数组</li>
                                     <li><code>output_videos</code>：输出视频URL数组</li>
                                 </ul>
                             </li>
                         </ul>
                     </div>
 
-                    <h3>视频文件支持</h3>
-                    <p>平台支持以下视频格式：</p>
+                    <h3>输出结果数据格式</h3>
+                    <p>测试完成后导出的结果文件格式：</p>
+
+                    <div class="code-block">
+<pre><code>{
+  "testInfo": {
+    "timestamp": "2025-06-18T09:26:02.311Z",
+    "totalQuestions": 6,
+    "outputModels": ["模型1", "模型2", "模型3"],
+    "completionRate": 100
+  },
+  "inputInfo": {
+    "0": {
+      "actionId": 2370,
+      "threadId": "88679a85-b981-4490-be45-e32562329c15",
+      "testId": "0",
+      "testCase": "Test-1-case477"
+    }
+  },
+  "userPreferences": {
+    "0_0_1": {
+      "testId": "0",
+      "model1Name": "模型1",
+      "model2Name": "模型2",
+      "selectedModelIndex": 1,
+      "selectedModelName": "模型2",
+      "preferenceReason": "选择原因",
+      "timestamp": "2025-06-18T09:25:57.133Z"
+    }
+  },
+  "modelStats": {
+    "模型1": {
+      "wins": 1,
+      "total": 4,
+      "comparisons": [
+        {
+          "testId": "0",
+          "opponent": "模型2",
+          "result": "lose"
+        }
+      ],
+      "winRate": "25.0%"
+    }
+  },
+  "eloRankings": [
+    {
+      "rank": 1,
+      "model": "模型2",
+      "eloRating": 1526
+    }
+  ]
+}</code></pre>
+                    </div>
+
+                    <div class="card">
+                        <h4>结果文件字段说明</h4>
+                        <ul>
+                            <li><code>testInfo</code>：测试基本信息
+                                <ul>
+                                    <li><code>timestamp</code>：测试完成时间</li>
+                                    <li><code>totalQuestions</code>：总题目数</li>
+                                    <li><code>outputModels</code>：参与测试的模型列表</li>
+                                    <li><code>completionRate</code>：完成率</li>
+                                </ul>
+                            </li>
+                            <li><code>inputInfo</code>：输入信息记录</li>
+                            <li><code>userPreferences</code>：用户偏好记录
+                                <ul>
+                                    <li>键格式：<code>{testId}_{model1Index}_{model2Index}</code></li>
+                                    <li><code>selectedModelIndex</code>：选择的模型索引（0或1）</li>
+                                    <li><code>preferenceReason</code>：选择原因</li>
+                                </ul>
+                            </li>
+                            <li><code>modelStats</code>：模型统计信息
+                                <ul>
+                                    <li><code>wins</code>：获胜次数</li>
+                                    <li><code>total</code>：总对比次数</li>
+                                    <li><code>winRate</code>：胜率</li>
+                                    <li><code>comparisons</code>：详细对比记录</li>
+                                </ul>
+                            </li>
+                            <li><code>eloRankings</code>：ELO评分排名</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- ELO System -->
+                <div class="section" id="elo">
+                    <h2>🏆 ELO评分系统</h2>
+                    <p>平台采用ELO评分系统来科学评估模型性能，这是国际象棋等竞技体育中广泛使用的评分方法。</p>
+
+                    <h3>评分规则</h3>
                     <ul>
-                        <li><strong>MP4</strong>：最常用的视频格式</li>
-                        <li><strong>AVI</strong>：传统视频格式</li>
-                        <li><strong>MOV</strong>：苹果设备常用格式</li>
-                        <li><strong>WMV</strong>：Windows媒体格式</li>
-                        <li><strong>FLV</strong>：Flash视频格式</li>
-                        <li><strong>WebM</strong>：Web优化格式</li>
-                        <li><strong>MKV</strong>：开源容器格式</li>
-                        <li><strong>M4V</strong>：iTunes视频格式</li>
+                        <li><strong>初始评分</strong>：每个模型初始ELO评分为1500分</li>
+                        <li><strong>评分更新</strong>：根据每次对比结果动态更新评分</li>
+                        <li><strong>K因子</strong>：设置为32，影响评分变化幅度</li>
+                        <li><strong>排名计算</strong>：按ELO评分从高到低排序</li>
+                    </ul>
+
+                    <h3>评分公式</h3>
+                    <div class="code-block">
+新评分 = 旧评分 + K * (实际结果 - 期望结果)
+期望结果 = 1 / (1 + 10^((对手评分 - 当前评分) / 400))
+                    </div>
+
+                    <h3>评分优势</h3>
+                    <ul>
+                        <li><strong>科学性</strong>：基于数学模型的客观评分</li>
+                        <li><strong>动态性</strong>：评分会随着比赛结果动态调整</li>
+                        <li><strong>可比性</strong>：不同模型间的评分具有可比性</li>
+                        <li><strong>稳定性</strong>：长期表现更稳定的模型评分更准确</li>
                     </ul>
                 </div>
 
-                <!-- Troubleshooting -->
-                <div class="section" id="troubleshooting">
-                    <h2>🛠️ 故障排除</h2>
+                <!-- Shortcuts -->
+                <div class="section" id="shortcuts">
+                    <h2>⌨️ 键盘快捷键</h2>
 
-                    <h3>技术特性</h3>
+                    <h3>测试操作</h3>
+                    <ul>
+                        <li><strong>← →</strong>：选择左侧或右侧的输出结果</li>
+                        <li><strong>↑ ↓</strong>：快速导航到上一题或下一题</li>
+                        <li><strong>Enter</strong>：确认选择并进入下一题</li>
+                        <li><strong>Tab</strong>：在界面元素间切换焦点</li>
+                    </ul>
+
+                    <h3>界面导航</h3>
+                    <ul>
+                        <li><strong>Esc</strong>：关闭模态框</li>
+                        <li><strong>鼠标滚轮</strong>：在媒体容器中滚动查看多个结果</li>
+                    </ul>
+                </div>
+
+                <!-- Cache -->
+                <div class="section" id="cache">
+                    <h2>💾 缓存机制</h2>
+
+                    <h3>本地存储</h3>
+                    <ul>
+                        <li><strong>测试进度</strong>：自动保存当前测试进度到浏览器本地存储</li>
+                        <li><strong>用户偏好</strong>：保存所有用户选择记录和偏好原因</li>
+                        <li><strong>缓存键</strong>：基于输入和输出文件内容生成唯一标识</li>
+                    </ul>
+
+                    <h3>断点续测</h3>
+                    <ul>
+                        <li><strong>自动检测</strong>：重新导入相同文件时自动检测缓存</li>
+                        <li><strong>恢复选项</strong>：提供继续测试或重新开始的选择</li>
+                        <li><strong>缓存清理</strong>：支持手动清除所有缓存数据</li>
+                    </ul>
+
+                    <h3>缓存管理</h3>
+                    <ul>
+                        <li><strong>查看缓存</strong>：显示当前测试的缓存状态和进度</li>
+                        <li><strong>清除缓存</strong>：一键清除所有测试缓存</li>
+                        <li><strong>缓存安全</strong>：数据仅存储在本地，保护隐私</li>
+                    </ul>
+                </div>
+
+                <!-- Tech -->
+                <div class="section" id="tech">
+                    <h2>🔧 技术特性</h2>
+
+                    <h3>浏览器兼容性</h3>
+                    <ul>
+                        <li><strong>现代浏览器</strong>：Chrome、Firefox、Safari、Edge最新版本</li>
+                        <li><strong>JavaScript</strong>：支持ES6+语法特性</li>
+                        <li><strong>Web API</strong>：支持File API、localStorage等现代Web API</li>
+                    </ul>
+
+                    <h3>文件处理</h3>
+                    <ul>
+                        <li><strong>格式支持</strong>：支持JSON格式文件</li>
+                        <li><strong>自动验证</strong>：自动验证文件格式和内容完整性</li>
+                        <li><strong>错误处理</strong>：完善的错误处理和用户友好的提示信息</li>
+                    </ul>
+
+                    <h3>性能优化</h3>
                     <ul>
                         <li><strong>异步加载</strong>：文件异步加载，不阻塞界面</li>
                         <li><strong>缩略图预加载</strong>：智能预加载后续5页缩略图，最多50张，根据网络状况动态调整</li>
@@ -406,16 +880,114 @@
                         <li><strong>响应式设计</strong>：适配不同屏幕尺寸和设备</li>
                         <li><strong>内存优化</strong>：优化内存使用，支持大文件处理</li>
                     </ul>
+                </div>
 
-                    <h3>更新日志</h3>
-                    <h4>v2.0.0 <span class="version-badge">最新</span></h4>
+                <!-- Troubleshooting -->
+                <div class="section" id="troubleshooting">
+                    <h2>🛠️ 故障排除</h2>
+
+                    <h3>常见问题</h3>
+
+                    <h4>1. 文件加载失败</h4>
+                    <p><strong>症状</strong>：文件状态显示"✗ 错误"</p>
+                    <p><strong>解决方案</strong>：</p>
+                    <ul>
+                        <li>检查文件格式是否为有效的JSON</li>
+                        <li>检查文件内容是否符合格式要求</li>
+                        <li>检查文件是否损坏或编码问题</li>
+                    </ul>
+
+                    <h4>2. 测试无法开始</h4>
+                    <p><strong>症状</strong>：开始按钮保持禁用状态</p>
+                    <p><strong>解决方案</strong>：</p>
+                    <ul>
+                        <li>确保至少选择了1个输入文件和2个输出文件</li>
+                        <li>检查文件是否成功加载（状态显示"✓ 已加载"）</li>
+                        <li>检查输入和输出文件的test_id是否匹配</li>
+                    </ul>
+
+                    <h4>3. 结果导入失败</h4>
+                    <p><strong>症状</strong>：结果文件格式不兼容</p>
+                    <p><strong>解决方案</strong>：</p>
+                    <ul>
+                        <li>检查结果文件格式是否正确</li>
+                    </ul>
+
+                    <h4>4. 显示问题</h4>
+                    <p><strong>症状</strong>：界面显示异常或功能不正常</p>
+                    <p><strong>解决方案</strong>：</p>
+                    <ul>
+                        <li>检查浏览器是否支持现代CSS特性</li>
+                        <li>尝试刷新页面或重启浏览器</li>
+                        <li>检查网络连接（如果加载外部图片/视频）</li>
+                        <li>检查OSS图片服务是否可用（如果使用OSS图片）</li>
+                    </ul>
+
+                    <h4>5. 图片加载问题</h4>
+                    <p><strong>症状</strong>：图片显示异常、加载缓慢或无法显示</p>
+                    <p><strong>解决方案</strong>：</p>
+                    <ul>
+                        <li>检查图片URL是否有效且可访问</li>
+                        <li>确认OSS图片处理参数是否正确</li>
+                        <li>检查网络连接和带宽状况</li>
+                        <li>尝试刷新页面重新加载缩略图</li>
+                    </ul>
+
+                    <h3>错误信息说明</h3>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>错误信息</th>
+                                <th>原因</th>
+                                <th>解决方案</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>"文件格式不正确"</td>
+                                <td>JSON文件格式错误或缺少必要字段</td>
+                                <td>检查文件格式和必要字段</td>
+                            </tr>
+                            <tr>
+                                <td>"至少需要2个输出文件"</td>
+                                <td>输出文件数量不足</td>
+                                <td>添加更多输出文件</td>
+                            </tr>
+                            <tr>
+                                <td>"没有找到有效的测试组合"</td>
+                                <td>输入和输出文件的test_id不匹配</td>
+                                <td>检查文件内容，确保test_id一致</td>
+                            </tr>
+                            <tr>
+                                <td>"导入结果失败"</td>
+                                <td>结果文件格式不兼容</td>
+                                <td>检查结果文件格式是否正确</td>
+                            </tr>
+                            <tr>
+                                <td>"图片加载失败"</td>
+                                <td>图片URL无效或网络问题</td>
+                                <td>检查图片URL和网络连接</td>
+                            </tr>
+                            <tr>
+                                <td>"缩略图生成失败"</td>
+                                <td>OSS图片处理服务问题</td>
+                                <td>检查OSS服务状态或使用原图</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Changelog -->
+                <div class="section" id="changelog">
+                    <h2>📈 更新日志</h2>
+
+                    <h3>v2.0.0 <span class="version-badge">最新</span></h3>
                     <p><strong>发布日期</strong>：2025-06-18</p>
                     <ul>
                         <li>✨ <strong>新增功能</strong>：ELO评分系统，提供科学模型排名</li>
                         <li>✨ <strong>新增功能</strong>：偏好原因记录，支持详细分析</li>
                         <li>✨ <strong>新增功能</strong>：断点续测，支持测试中断后继续</li>
                         <li>✨ <strong>新增功能</strong>：媒体预览，支持图片视频放大查看</li>
-                        <li>✨ <strong>新增功能</strong>：视频支持，自动识别视频文件并提供播放器</li>
                         <li>✨ <strong>新增功能</strong>：键盘导航，提升测试效率</li>
                         <li>✨ <strong>新增功能</strong>：结果导入，支持查看历史测试</li>
                         <li>✨ <strong>新增功能</strong>：缩略图智能预加载，提升页面切换速度</li>
@@ -428,8 +1000,71 @@
                         <li>🔧 <strong>技术改进</strong>：提升的用户体验</li>
                         <li>🔧 <strong>技术改进</strong>：OSS图片处理优化，减少加载时间</li>
                     </ul>
+
+                    <h3>v1.0.0</h3>
+                    <p><strong>发布日期</strong>：2025-06-01</p>
+                    <ul>
+                        <li>🎉 <strong>初始版本</strong>：基础盲测功能</li>
+                        <li>📊 <strong>基础统计</strong>：胜率、完成率等基础统计</li>
+                        <li>💾 <strong>结果导出</strong>：支持导出测试结果</li>
+                        <li>🎨 <strong>基础界面</strong>：简洁的测试界面</li>
+                    </ul>
+                </div>
+
+                <!-- Support -->
+                <div class="section" id="support">
+                    <h2>📞 联系支持</h2>
+
+                    <h3>技术支持</h3>
+                    <ul>
+                        <li>📧 <strong>邮箱</strong>：support@ai-benchlab.com (查无此箱)</li>
+                        <li>🐛 <strong>问题反馈</strong>：提交Issue到项目仓库 (查无此库)</li>
+                        <li>📖 <strong>文档</strong>：查看项目文档获取更多信息</li>
+                    </ul>
+
+                    <h3>社区交流</h3>
+                    <ul>
+                        <li>💬 <strong>讨论区</strong>：GitHub Discussions</li>
+                        <li>📢 <strong>公告</strong>：关注项目Release页面</li>
+                        <li>🤝 <strong>合作</strong>：欢迎学术和商业合作</li>
+                    </ul>
+
+                    <div class="highlight">
+                        <h4>🤝 贡献指南</h4>
+                        <p>我们欢迎社区贡献，包括但不限于：</p>
+                        <ul>
+                            <li>🐛 Bug报告和修复</li>
+                            <li>✨ 新功能建议和实现</li>
+                            <li>📖 文档改进</li>
+                            <li>🎨 界面优化</li>
+                        </ul>
+                        <p><strong>贡献方式</strong>：</p>
+                        <ol>
+                            <li>Fork项目仓库</li>
+                            <li>创建功能分支</li>
+                            <li>提交代码更改</li>
+                            <li>创建Pull Request</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <!-- Call to Action -->
+                <div class="section">
+                    <div class="highlight">
+                        <h3>🚀 立即开始使用</h3>
+                        <p>准备好开始您的AI模型评估之旅了吗？</p>
+                        <a href="wob.html" class="btn">开始测试</a>
+                    </div>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <div class="container">
+            <p>© 2025 AI-BenchLab. 让AI模型评估更科学、更客观、更专业！</p>
+            <p>本项目采用 MIT 许可证</p>
         </div>
     </div>
 
@@ -469,6 +1104,23 @@
                 }
             });
         });
+
+        // Mobile menu toggle
+        const navLinksContainer = document.querySelector('.nav-links');
+        const navToggle = document.createElement('button');
+        navToggle.innerHTML = '☰';
+        navToggle.className = 'nav-toggle';
+        navToggle.style.display = 'none';
+
+        if (window.innerWidth <= 768) {
+            navToggle.style.display = 'block';
+            navLinksContainer.style.display = 'none';
+
+            navToggle.addEventListener('click', () => {
+                navLinksContainer.style.display =
+                    navLinksContainer.style.display === 'none' ? 'flex' : 'none';
+            });
+        }
     </script>
 </body>
 </html> 
