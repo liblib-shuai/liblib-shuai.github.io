@@ -503,13 +503,15 @@
         .preference-reason-section {
             flex: 1;
             max-width: 600px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
         .preference-reason-label {
-            display: block;
             font-weight: 500;
             color: #4a5568;
-            margin-bottom: 8px;
             font-size: 14px;
+            flex-shrink: 0;
         }
         .preference-reason-textarea {
             width: 100%;
@@ -543,6 +545,15 @@
         .prev-btn {
             background: #718096;
             color: white;
+        }
+        .tie-btn {
+            background: #f6ad55; /* Orange for tie */
+            color: white;
+            border: 2px solid transparent;
+        }
+        .tie-btn.selected {
+            border-color: #dd6b20;
+            box-shadow: 0 0 0 3px rgba(246, 173, 85, 0.4);
         }
         .next-btn {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -1144,7 +1155,7 @@
 
                 <button class="start-btn" id="startBtn" disabled>🚀 开始测试</button>
             </div>
-
+            
             <!-- 导入结果区域 -->
             <div class="function-content" id="importResultsContent" style="display: none;">
                 <div class="file-input-group">
@@ -1153,7 +1164,7 @@
                     <label for="resultsFile" class="file-label">📄 选择结果文件</label>
                     <div class="file-info" id="resultsFileInfo"></div>
                 </div>
-
+                
                 <button class="start-btn" id="importResultsBtn" disabled>📊 查看结果</button>
             </div>
         </div>
@@ -1187,18 +1198,19 @@
 
                 <div class="output-section">
                     <h3>🎨 请选择您认为最好的输出结果</h3>
-                    <div class="keyboard-hint">💡 提示：← → 选择答案 | ↑ ↓ 快速导航 | Enter确认并进入下一题</div>
+                    <div class="keyboard-hint">💡 提示：← → 选择答案, 空格 选择平局 | ↑ ↓ 快速导航 | Enter确认并进入下一题</div>
                     <div class="output-grid" id="outputGrid"></div>
                 </div>
 
                 <div class="navigation-buttons">
                     <button class="nav-btn prev-btn" id="prevBtn">⬅️ 上一题</button>
+                    <button class="nav-btn tie-btn" id="tieBtn" onclick="selectTie()">🤝 平局 (空格)</button>
                     <div class="preference-reason-section">
                         <label class="preference-reason-label" for="preferenceReason">💭 偏好原因（可选）</label>
-                        <textarea
-                            id="preferenceReason"
-                            class="preference-reason-textarea"
-                            placeholder="请描述您选择该结果的原因，例如：图片质量更好、创意更丰富、更符合要求等..."
+                        <textarea 
+                            id="preferenceReason" 
+                            class="preference-reason-textarea" 
+                            placeholder="请描述选择的原因，如：质量更好、创意更丰富、更符合要求等..."
                             onchange="savePreferenceReason()"
                         ></textarea>
                     </div>
@@ -1209,12 +1221,12 @@
 
         <div class="results-section" id="resultsSection">
             <h2>📊 测试结果统计</h2>
-
+            
             <!-- 导航按钮 -->
             <div class="results-nav">
                 <button class="nav-btn home-btn" onclick="goHome()">🏠 回到开始</button>
             </div>
-
+            
             <!-- 进度概览 -->
             <div class="progress-overview" id="progressOverview">
                 <div class="progress-bar-container">
@@ -1222,22 +1234,22 @@
                     <div class="progress-text" id="progressText">0%</div>
                 </div>
             </div>
-
+            
             <!-- 模型对比图表 -->
             <div class="model-comparison" id="modelComparison">
                 <h3>🏆 模型表现对比</h3>
                 <div class="chart-container" id="chartContainer"></div>
             </div>
-
+            
             <!-- ELO评分排名 -->
             <div class="elo-ranking" id="eloRanking">
                 <h3>📈 ELO评分排名</h3>
                 <div class="elo-container" id="eloContainer"></div>
             </div>
-
+            
             <!-- 详细统计 -->
             <div class="summary-stats" id="summaryStats"></div>
-
+            
             <!-- 操作按钮 -->
             <div class="results-actions">
                 <button class="action-btn" id="viewDetailsBtn" onclick="showDetailedResults()">📋 查看详细结果</button>
@@ -1299,7 +1311,7 @@
             const importResultsTab = document.getElementById('importResultsTab');
             const newTestContent = document.getElementById('newTestContent');
             const importResultsContent = document.getElementById('importResultsContent');
-
+            
             if (functionType === 'newTest') {
                 newTestTab.classList.add('active');
                 importResultsTab.classList.remove('active');
@@ -1317,7 +1329,7 @@
         function handleResultsFileChange(event) {
             const file = event.target.files[0];
             if (file) {
-                document.getElementById('resultsFileInfo').textContent =
+                document.getElementById('resultsFileInfo').textContent = 
                     `已选择: ${file.name} (${(file.size / 1024).toFixed(1)} KB)`;
                 importResultsBtn.disabled = false;
             }
@@ -1333,7 +1345,7 @@
                 }
 
                 const resultData = await readFileAsJSON(file);
-
+                
                 // 验证结果文件格式 - 适配实际的结果文件结构
                 if (!resultData.userPreferences) {
                     throw new Error('结果文件格式不正确，缺少userPreferences字段');
@@ -1355,20 +1367,20 @@
                     if (pref.model1Name) modelNames.add(pref.model1Name);
                     if (pref.model2Name) modelNames.add(pref.model2Name);
                 });
-
+                
                 outputModels = Array.from(modelNames);
 
                 // 直接显示结果页面
                 uploadSection.style.display = 'none';
                 testSection.style.display = 'none';
                 resultsSection.style.display = 'block';
-
+                
                 // 显示标题区域
                 document.querySelector('.header').style.display = 'block';
-
+                
                 // 显示结果
                 displayResults();
-
+                
             } catch (error) {
                 alert('导入结果失败: ' + error.message);
             }
@@ -1383,7 +1395,7 @@
                     event.target.value = ''; // 清空文件选择
                     return;
                 }
-
+                
                 inputFileItem = {
                     file: file,
                     name: file.name,
@@ -1436,7 +1448,7 @@
                         <span class="file-name">${inputFileItem.name}</span>
                         <span class="file-size">(${(inputFileItem.size / 1024).toFixed(1)} KB)</span>
                         <span class="file-status ${inputFileItem.status}">
-                            ${inputFileItem.status === 'loading' ? '加载中...' :
+                            ${inputFileItem.status === 'loading' ? '加载中...' : 
                               inputFileItem.status === 'success' ? '✓ 已加载' : '✗ 错误'}
                         </span>
                     </div>
@@ -1468,7 +1480,7 @@
                 alert(`文件 "${file.name}" 已存在，不能重复导入同名文件。`);
                 return;
             }
-
+            
             const fileItem = {
                 file: file,
                 name: file.name,
@@ -1542,45 +1554,6 @@
             startBtn.disabled = !(hasInput && hasValidOutputs);
         }
 
-        function validateData(inputData, outputData) {
-            if (!inputData || typeof inputData !== 'object') {
-                throw new Error('输入数据格式错误');
-            }
-            if (!outputData || outputData.length < 2) {
-                throw new Error('至少需要2个输出文件进行对比');
-            }
-            
-            const inputKeys = Object.keys(inputData).filter(key => key !== 'test_info');
-            const validTestIds = new Set();
-            
-            // 检查每个输出文件的数据结构，收集所有有效的test_id
-            for (let output of outputData) {
-                const outputKeys = Object.keys(output.data).filter(key => key !== 'test_info');
-                
-                // 检查每个test_id的有效性
-                for (let testId of outputKeys) {
-                    const resultItem = output.data[testId];
-                    if (isValidOutput(resultItem)) {
-                        // 检查输入文件中是否有对应的test_id
-                        if (inputData[testId]) {
-                            validTestIds.add(testId);
-                        } else {
-                            console.warn(`输出文件 ${output.name} 中的 test_id ${testId} 在输入文件中不存在`);
-                        }
-                    }
-                }
-            }
-            
-            // 检查是否有足够的有效test_id
-            if (validTestIds.size === 0) {
-                throw new Error('没有找到有效的测试用例（输出有效且输入存在）');
-            }
-            
-            console.log(`找到 ${validTestIds.size} 个有效测试用例:`, Array.from(validTestIds));
-            console.log(`输入文件包含 ${inputKeys.length} 个test_id:`, inputKeys);
-            return Array.from(validTestIds);
-        }
-
         function isValidOutput(outputItem) {
             if (!outputItem || !outputItem.output_display_info) {
                 return false;
@@ -1600,37 +1573,37 @@
             return hasImages || hasVideos;
         }
 
-        function generateTestCombinations(outputData, validTestIds) {
+        function generateTestCombinations(inputData, outputData) {
             const combinations = [];
-            const modelCount = outputData.length;
-            
-            // 生成C(n,2)组合
-            for (let i = 0; i < modelCount; i++) {
-                for (let j = i + 1; j < modelCount; j++) {
-                    const model1 = outputData[i];
-                    const model2 = outputData[j];
-                    
-                    // 为每个有效的test_id创建对比组合
-                    for (let testId of validTestIds) {
-                        // 检查两个模型在这个test_id上都有有效输出
-                        if (isValidOutput(model1.data[testId]) && isValidOutput(model2.data[testId])) {
+            const inputKeys = Object.keys(inputData).filter(key => key !== 'test_info');
+
+            // 为每个输入测试用例寻找有效的输出
+            inputKeys.forEach(testId => {
+                const validOutputsForTest = [];
+                outputData.forEach((modelOutput, modelIndex) => {
+                    const resultItem = modelOutput.data[testId];
+                    if (isValidOutput(resultItem)) {
+                        validOutputsForTest.push({
+                            name: modelOutput.name,
+                            index: modelIndex,
+                            data: resultItem
+                        });
+                    }
+                });
+
+                // 如果该测试用例至少有两个模型的有效输出，则生成这些模型之间的所有组合
+                if (validOutputsForTest.length >= 2) {
+                    for (let i = 0; i < validOutputsForTest.length; i++) {
+                        for (let j = i + 1; j < validOutputsForTest.length; j++) {
                             combinations.push({
                                 testId: testId,
-                                model1: {
-                                    name: model1.name,
-                                    index: i,
-                                    data: model1.data[testId]
-                                },
-                                model2: {
-                                    name: model2.name,
-                                    index: j,
-                                    data: model2.data[testId]
-                                }
+                                model1: validOutputsForTest[i],
+                                model2: validOutputsForTest[j]
                             });
                         }
                     }
                 }
-            }
+            });
             
             return combinations;
         }
@@ -1664,12 +1637,9 @@
                 });
 
                 outputModels = outputData.map(item => item.name);
-
-                // 验证数据并获取有效的test_id
-                const validTestIds = validateData(inputFileData, outputData);
                 
                 // 生成测试组合
-                const testCombinations = generateTestCombinations(outputData, validTestIds);
+                const testCombinations = generateTestCombinations(inputFileData, outputData);
                 
                 if (testCombinations.length === 0) {
                     throw new Error('没有找到有效的测试组合');
@@ -1769,14 +1739,22 @@
 
             // 显示之前的选择状态
             const combinationKey = `${currentCombination.testId}_${currentCombination.model1.index}_${currentCombination.model2.index}`;
+            document.querySelectorAll('.output-item').forEach(item => item.classList.remove('selected'));
+            document.getElementById('tieBtn').classList.remove('selected');
+
             if (testData.userPreferences[combinationKey]) {
-                const selectedModelIndex = testData.userPreferences[combinationKey].selectedModelIndex;
-                const outputItems = document.querySelectorAll('.output-item');
-                outputItems.forEach((item, index) => {
-                    if (parseInt(item.dataset.modelIndex) === selectedModelIndex) {
-                        item.classList.add('selected');
-                    }
-                });
+                const preference = testData.userPreferences[combinationKey];
+                if (preference.selectedModelName === 'tie') {
+                    document.getElementById('tieBtn').classList.add('selected');
+                } else {
+                    const selectedModelIndex = preference.selectedModelIndex;
+                    const outputItems = document.querySelectorAll('.output-item');
+                    outputItems.forEach((item, index) => {
+                        if (parseInt(item.dataset.modelIndex) === selectedModelIndex) {
+                            item.classList.add('selected');
+                        }
+                    });
+                }
             }
             
             // 立即开始预加载下一页的缩略图
@@ -2077,6 +2055,9 @@
             });
             outputItem.classList.add('selected');
 
+            // Deselect tie button
+            document.getElementById('tieBtn').classList.remove('selected');
+
             const currentCombination = testData.testCombinations[testData.currentIndex];
             const combinationKey = `${currentCombination.testId}_${currentCombination.model1.index}_${currentCombination.model2.index}`;
             
@@ -2094,6 +2075,34 @@
             };
 
             // 自动保存进度
+            saveTestProgress();
+        }
+
+        function selectTie() {
+            // Deselect all output items
+            document.querySelectorAll('.output-item').forEach(item => {
+                item.classList.remove('selected');
+            });
+
+            // Select the tie button
+            document.getElementById('tieBtn').classList.add('selected');
+
+            const currentCombination = testData.testCombinations[testData.currentIndex];
+            const combinationKey = `${currentCombination.testId}_${currentCombination.model1.index}_${currentCombination.model2.index}`;
+            
+            const existingReason = testData.userPreferences[combinationKey]?.preferenceReason || "";
+
+            testData.userPreferences[combinationKey] = {
+                testId: currentCombination.testId,
+                model1Name: currentCombination.model1.name,
+                model2Name: currentCombination.model2.name,
+                selectedModelIndex: -1, // Using -1 for tie
+                selectedModelName: 'tie',
+                preferenceReason: existingReason,
+                timestamp: new Date().toISOString()
+            };
+
+            // Auto-save progress
             saveTestProgress();
         }
 
@@ -2608,35 +2617,43 @@
             
             // 初始化所有模型的统计
             outputModels.forEach(model => {
-                modelStats[model] = { wins: 0, total: 0, comparisons: [] };
+                modelStats[model] = { wins: 0, losses: 0, ties: 0, total: 0, comparisons: [] };
             });
 
             // 统计每个对比的结果
             Object.values(testData.userPreferences).forEach(pref => {
-                if (pref.selectedModelName) {
-                    modelStats[pref.selectedModelName].wins++;
-                    modelStats[pref.selectedModelName].comparisons.push({
-                        testId: pref.testId,
-                        opponent: pref.selectedModelName === pref.model1Name ? pref.model2Name : pref.model1Name,
-                        result: 'win'
-                    });
-                    
-                    // 记录对手的失败
-                    const opponent = pref.selectedModelName === pref.model1Name ? pref.model2Name : pref.model1Name;
-                    modelStats[opponent].comparisons.push({
-                        testId: pref.testId,
-                        opponent: pref.selectedModelName,
-                        result: 'lose'
-                    });
+                const model1Name = pref.model1Name;
+                const model2Name = pref.model2Name;
+                const selectedModelName = pref.selectedModelName;
+
+                if (selectedModelName === 'tie') {
+                    if(modelStats[model1Name]) {
+                        modelStats[model1Name].ties++;
+                        modelStats[model1Name].total++;
+                    }
+                    if(modelStats[model2Name]) {
+                        modelStats[model2Name].ties++;
+                        modelStats[model2Name].total++;
+                    }
+                } else if (selectedModelName) {
+                    const winner = selectedModelName;
+                    const loser = winner === model1Name ? model2Name : model1Name;
+                    if(modelStats[winner]) {
+                        modelStats[winner].wins++;
+                        modelStats[winner].total++;
+                    }
+                    if(modelStats[loser]) {
+                        modelStats[loser].losses++;
+                        modelStats[loser].total++;
+                    }
                 }
             });
 
             // 计算总对比次数和胜率
             Object.keys(modelStats).forEach(model => {
-                const comparisons = modelStats[model].comparisons;
-                modelStats[model].total = comparisons.length;
-                modelStats[model].winRate = modelStats[model].total > 0 ? 
-                    (modelStats[model].wins / modelStats[model].total * 100).toFixed(1) + '%' : '0%';
+                const stats = modelStats[model];
+                stats.winRate = stats.total > 0 ? 
+                    (stats.wins / stats.total * 100).toFixed(1) + '%' : '0%';
             });
 
             return modelStats;
@@ -2778,6 +2795,10 @@
                     if (testData.userPreferences[combinationKeyEnter]) {
                         document.getElementById('nextBtn').click();
                     }
+                    break;
+                case ' ': // Spacebar
+                    event.preventDefault();
+                    selectTie();
                     break;
             }
         }
@@ -3006,6 +3027,21 @@
                 };
             }
 
+            // 更新平局评分
+            updateRatingForDraw(modelA, modelB) {
+                const ratingA = this.getRating(modelA);
+                const ratingB = this.getRating(modelB);
+                
+                const expectedA = this.getExpectedScore(ratingA, ratingB);
+                const expectedB = this.getExpectedScore(ratingB, ratingA);
+                
+                const newRatingA = ratingA + this.kFactor * (0.5 - expectedA);
+                const newRatingB = ratingB + this.kFactor * (0.5 - expectedB);
+                
+                this.ratings.set(modelA, newRatingA);
+                this.ratings.set(modelB, newRatingB);
+            }
+
             // 获取所有评分
             getAllRatings() {
                 return Array.from(this.ratings.entries()).map(([model, rating]) => ({
@@ -3026,7 +3062,9 @@
                 
                 // 根据用户选择更新评分
                 Object.values(userPreferences).forEach(pref => {
-                    if (pref.selectedModelName) {
+                    if (pref.selectedModelName === 'tie') {
+                        this.updateRatingForDraw(pref.model1Name, pref.model2Name);
+                    } else if (pref.selectedModelName) {
                         const winner = pref.selectedModelName;
                         const loser = winner === pref.model1Name ? pref.model2Name : pref.model1Name;
                         this.updateRating(winner, loser);
